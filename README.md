@@ -6,9 +6,39 @@ Java VLille API
 
 ## Dependencies
 
-- JSOUP
+- JSOUP (http://jsoup.org)
 
-## Ouput Main 
+# Interfaces
+
+- Station
+- VLille
+
+# Implementations
+
+- StationImpl
+- VLilleImpl
+
+# Usage
+
+```Java
+
+
+import durieux.vlille.Station;
+import durieux.vlille.VLille;
+import durieux.vlille.VLilleImpl;
+
+final VLille vlille = new VLilleImpl();
+final Map<Integer, Station> stations = vlille.getStationsWithDetails();
+// or
+final Map<Integer, Station> stations = vlille.getStations();
+```
+# Execute
+
+```bash
+java -jar vlille.jar
+```
+
+# Output
 
 ```JSON
 {
