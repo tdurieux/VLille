@@ -1,4 +1,4 @@
-package durieux.vlille;
+package durieux.vlille.util;
 
 public class XMLParserException extends RuntimeException {
 

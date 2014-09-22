@@ -1,4 +1,4 @@
-package durieux.vlille;
+package durieux.vlille.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

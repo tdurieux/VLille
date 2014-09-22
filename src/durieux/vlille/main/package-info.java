@@ -5,4 +5,4 @@
  * @author durieux
  *
  */
-package durieux.main;
+package durieux.vlille.main;

@@ -1,19 +1,19 @@
-package durieux.main;
+package durieux.vlille.main;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import durieux.vlille.Station;
-import durieux.vlille.VLille;
-import durieux.vlille.VLilleImpl;
+import durieux.vlille.api.Station;
+import durieux.vlille.api.VLille;
+import durieux.vlille.api.VLilleImpl;
 
 public class Main {
 	public static void main(final String[] args) throws IOException {
 		final VLille vlille = new VLilleImpl();
-
 		final Map<Integer, Station> stations = vlille.getStationsWithDetails();
+
 		System.out.println("{\n  \"stations\": [");
 		final Collection<Station> values = stations.values();
 		final Iterator<Station> it = values.iterator();
@@ -29,7 +29,8 @@ public class Main {
 			System.out.println("      \"attachs\": " + station.getAttachs()
 					+ ",");
 			System.out.println("      \"latitude\": " + station.getLat() + ",");
-			System.out.println("      \"longitude\": " + station.getLng() + "");
+			System.out.println("      \"longitude\": " + station.getLng() + ",");
+			System.out.println("      \"paiement\": \"" + station.getPaiement() + "\"");
 			System.out.println("    }" + (it.hasNext() ? "," : ""));
 		}
 		System.out.println("  ]\n}");

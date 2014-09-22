@@ -1,4 +1,4 @@
-package durieux.vlille;
+package durieux.vlille.api;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -12,6 +12,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import durieux.vlille.util.XMLFromUrl;
 
 public class VLilleImpl implements VLille {
 	private static String URLVLILLE = "http://www.vlille.fr/stations/les-stations-vlille.aspx";
@@ -31,32 +33,12 @@ public class VLilleImpl implements VLille {
 		}
 		final XMLFromUrl xmlParser = new XMLFromUrl(URLVLILLEXML,
 				Charset.forName("UTF-8"));
-		;
 		final Document doc = xmlParser.parse();
 		final NodeList nodeList = doc.getElementsByTagName("marker");
 		for (int i = 0; i < nodeList.getLength(); i++) {
-			int stationId = -1;
-			String nom = "";
-			double lat = 0.0;
-			double lng = 0.0;
-			final Node item = nodeList.item(i);
-			final NamedNodeMap attributes = item.getAttributes();
-			for (int j = 0; j < attributes.getLength(); j++) {
-				final Node attribute = attributes.item(j);
-				if (attribute.getNodeName().equals("id")) {
-					stationId = Integer.parseInt(attribute.getTextContent());
-				} else if (attribute.getNodeName().equals("lat")) {
-					lat = Double.parseDouble(attribute.getTextContent());
-				} else if (attribute.getNodeName().equals("lng")) {
-					lng = Double.parseDouble(attribute.getTextContent());
-				} else if (attribute.getNodeName().equals("name")) {
-					nom = attribute.getTextContent();
-				}
-			}
-			if (stationId != -1) {
-				this.stations.put(stationId, new StationImpl(stationId, nom,
-						lat, lng));
-			}
+			Station station = StationFactory.createStationFromXML(nodeList
+					.item(i));
+			this.stations.put(station.getId(), station);
 		}
 		return this.stations;
 	}
@@ -80,6 +62,7 @@ public class VLilleImpl implements VLille {
 			final Elements elements = line.select("td span");
 			int stationId = -1, nombreVeloDispo = 0, nombreBorneDispo = 0;
 			String stationAdresse = "", nom = "", ville = "";
+			String paidType = "";
 			for (final Element value : elements) {
 				final String id = value.id();
 				if (id.contains("LibelleLabel")) {
@@ -96,6 +79,14 @@ public class VLilleImpl implements VLille {
 					nombreBorneDispo = Integer.parseInt(value.text());
 				}
 			}
+			final Elements images = line.select("img");
+			for (final Element value : images) {
+				String src = value.attr("src");
+				if (src.contains("picto")) {
+					paidType = value.attr("title");
+					break;
+				}
+			}
 			if (stationId != -1) {
 				Station station;
 				if (this.stations.get(stationId) != null) {
@@ -105,10 +96,12 @@ public class VLilleImpl implements VLille {
 					station.setStatus(1);
 					station.setBikes(nombreBorneDispo + nombreVeloDispo);
 					station.setAttachs(nombreVeloDispo);
+					station.setPaiement(paidType);
 				} else {
 					station = new StationImpl(stationId, nom, ville,
 							stationAdresse, 1, nombreBorneDispo
-									+ nombreVeloDispo, nombreVeloDispo, "");
+									+ nombreVeloDispo, nombreVeloDispo,
+							paidType);
 				}
 				this.stations.put(stationId, station);
 			}

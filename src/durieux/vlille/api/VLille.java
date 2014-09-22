@@ -1,4 +1,4 @@
-package durieux.vlille;
+package durieux.vlille.api;
 
 import java.io.IOException;
 import java.util.Map;

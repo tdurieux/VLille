@@ -1,4 +1,4 @@
-package durieux.vlille;
+package durieux.vlille.api;
 
 public interface Station {
 	int getId();
