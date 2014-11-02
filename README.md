@@ -1,4 +1,4 @@
-VLille
+VLille [![Build Status](https://travis-ci.org/tdurieux/VLille.svg)](https://travis-ci.org/tdurieux/VLille)
 ======
 
 Java VLille API

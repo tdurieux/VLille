@@ -24,7 +24,7 @@ public class StationFactory {
 					stationName = attribute.getTextContent();
 				}
 			}catch(NumberFormatException e){
-				// ignore malformed number
+				throw new RuntimeException("Unable to create a Station: invalid XML");
 			}
 		}
 		if (stationId == -1 || stationName.equals("")) {

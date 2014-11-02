@@ -1,4 +1,4 @@
-package test.durieux.vlille.api;
+package durieux.vlille.api;
 
 import static org.junit.Assert.*;
 
@@ -111,7 +111,6 @@ public class StationFactoryTest {
 		Document doc = parseXML(xml);
 		final NodeList nodeList = doc.getElementsByTagName("marker");
 		StationFactory.createStationFromXML(nodeList.item(0));
-		fail("The parser must fail");
 	}
 	
 
@@ -121,6 +120,5 @@ public class StationFactoryTest {
 		Document doc = parseXML(xml);
 		final NodeList nodeList = doc.getElementsByTagName("marker");
 		StationFactory.createStationFromXML(nodeList.item(0));
-		fail("The parser must fail");
 	}
 }
